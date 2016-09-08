@@ -1,6 +1,6 @@
 <?php
 
-/* SECURITY MONITOR
+/* IMAGE-WATCHER
  *
  * VERSIONS:
  *
@@ -33,7 +33,7 @@ if (array_key_exists('CAM_PHP_TIMEZONE', $_ENV)) {
 date_default_timezone_set($php_timezone);
 
 // Create the logger 
-$logger = new Logger('camerawatch');
+$logger = new Logger('image-watcher');
 $logger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
 
 //$log_filename = date("YmdHis") . ".log";
@@ -400,41 +400,46 @@ function removeOldFiles() {
 
 	log_debug("Attempting to remove files older than " . $retention_period_hours . " hours");
 
-	// Mark the time right now
-	$now = new DateTime();
+	try {
+		// Mark the time right now
+		$now = new DateTime();
 
-	// Create the new resources needed to get the files
-	$directoryResource = new Directory($client);
-	$fileResource = new File($client);
+		// Create the new resources needed to get the files
+		$directoryResource = new Directory($client);
+		$fileResource = new File($client);
 	
-	// Get all of the items in that directory
-	$items = $directoryResource->getAll($target_library, $seafile_directory);
+		// Get all of the items in that directory
+		$items = $directoryResource->getAll($target_library, $seafile_directory);
 
-	// Iterate through all the items
-	foreach ($items as $item) {
+		// Iterate through all the items
+		foreach ($items as $item) {
 	
-		if ($item->type == "file")  {
+			if ($item->type == "file")  {
 
-			// Calculate the time difference
-			$timediff = $now->getTimeStamp() - $item->mtime->getTimeStamp();
+				// Calculate the time difference
+				$timediff = $now->getTimeStamp() - $item->mtime->getTimeStamp();
 	
-			log_debug("Checking item " . $item->name . " - time difference " . $timediff);
+				log_debug("Checking item " . $item->name . " - time difference " . $timediff);
 			
-			// If the difference between now and the file's timestamp is more than the retention period hours
-			if ($timediff > ($retention_period_hours * 60 * 60)) {
+				// If the difference between now and the file's timestamp is more than the retention period hours
+				if ($timediff > ($retention_period_hours * 60 * 60)) {
 		
-				// Create the path
-				$remove_path = $seafile_directory . "/" . $item->name;
+					// Create the path
+					$remove_path = $seafile_directory . "/" . $item->name;
 				
-				// Try to remove the file
-				if ($fileResource->remove($target_library, $remove_path)) {
-					log_info("Removed: " . $remove_path);
-				}
-				else {
-					log_warning("Could not remove: " . $remove_path);
+					// Try to remove the file
+					if ($fileResource->remove($target_library, $remove_path)) {
+						log_info("Removed: " . $remove_path);
+					}
+					else {
+						log_warning("Could not remove: " . $remove_path);
+					}
 				}
 			}
 		}
+	}
+	catch (Exception $e) {
+		log_error("Could not remove old files. Error message: " . $e->getMessage());
 	}
 }
 
