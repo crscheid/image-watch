@@ -10,7 +10,7 @@
 
 FROM php:7-cli
 
-MAINTAINER Christopher Scheidel <christopher.scheidel@gmail.com>
+MAINTAINER Christopher Scheidel <cscheide@oiltycoonsllc.com>
 
 # Update and install system dependencies
 RUN apt-get update && apt-get install -y \
