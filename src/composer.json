@@ -1,0 +1,11 @@
+{
+	"name": "oiltycoons/camerawatch",
+	"description": "A security monitoring solution for any web accessible image URL",
+	"keywords": ["foscam", "security", "webcam"],
+	"version":"1.0.0",
+	"require": {
+		"intervention/image":"2.3.7",
+		"monolog/monolog":"1.17",
+		"rsd/seafile-php-sdk":"v1.0.0"
+	}
+}
