@@ -392,6 +392,7 @@ function sendFileToSeafile($filepath) {
 		$uploadAttempts++;
 
 		if ($uploadAttempts > $uploadAttemptLimit) {
+			log_error("Exceeded upload attempt limit. Throwing error to exit");
 			throw $e;
 		}
 	}
