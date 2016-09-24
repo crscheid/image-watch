@@ -52,8 +52,6 @@ log_info("Timezone set and logger created");
 $log_debug = false;		// Override with CAM_LOG_DEBUG
 $max_width = 1280;		// Override with CAM_MAX_WIDTH
 $output_quality = 80;	// Override with CAM_OUTPUT_QUALITY
-$uploadAttemptLimit = 5;
-$uploadAttempts = 0;
 
 $interval_time_secs = 60;			// Override with CAM_INTERVAL_TIME_SECS
 $clean_up_interval_mins = 60;		// Override with CAM_CLEAN_TIME_MINS
@@ -389,12 +387,6 @@ function sendFileToSeafile($filepath) {
 	}
 	catch (Exception $e) {
 		log_error("Exception found in trying to upload file to seafile. Try checking your configuration. This may occur if you are utilizing an encrypted library without an specified encryption key via CAM_SEAFILE_ENCRYPTION_KEY. Error message: " . $e->getMessage());
-		$uploadAttempts++;
-
-		if ($uploadAttempts > $uploadAttemptLimit) {
-			log_error("Exceeded upload attempt limit. Throwing error to exit");
-			throw $e;
-		}
 	}
 
 	log_debug("Uploaded file " . $filepath);
