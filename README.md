@@ -22,12 +22,28 @@ There is a sample.env file contained within the distribution for you to referenc
 Example `docker-compose.yml` for `image-watcher`:
 
 ```yaml
-
-
-xxxx
-
-
+camerawatch:
+  image: cscheide/image-watcher:latest
+  environment:
+    CAM_LOG_DEBUG: "true"
+    CAM_PHP_TIMEZONE: America/New_York
+    CAM_SEAFILE_URL: https://your.seafile.server:443
+    CAM_SEAFILE_APITOKEN: <your Seafile API token>
+    CAM_SEAFILE_LIBRARY_ID: <your Seafile library id>
+    CAM_SEAFILE_DIRECTORY: /Images
+    CAM_SEAFILE_ENCRYPTION_KEY: <your key>
+    CAM_RETENTION_TIME_HOURS: 2
+    CAM_CLEAN_TIME_MINS: 30
+    CAM_ENCRYPT_TIMEOUT_MINS: 30
+    CAM_IMAGE_URL1: http://your.first.webcam/image.jpg
+    CAM_IMAGE_URL2: http://your.second.webcam/image.jpg
+    CAM_IMAGE_URL3: http://your.third.webcam/image.jpg
+    CAM_IMAGE_URL4: http://your.fourth.webcam/image.jpg
+    CAM_IMAGE_URL5: http://some.other.webcam/image.png
+    CAM_IMAGE_URL6: http://yet.another.webcam/image.png
 ```
+
+Not that this service supports up to 9 cameras via the environment variables `CAM_IMAGE_URL1` through `CAM_IMAGE_URL9`.
 
 # Environment Variables
 
