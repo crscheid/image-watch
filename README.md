@@ -17,6 +17,17 @@ $ docker run --name some-image-watcher --env-file ./env.list -d cscheide/image-w
 There is a sample.env file contained within the distribution for you to reference if needed.
 
 
+## Running via [`docker-compose`](https://github.com/docker/compose)
+
+Example `docker-compose.yml` for `image-watcher`:
+
+```yaml
+
+
+xxxx
+
+
+```
 
 # Environment Variables
 
@@ -28,7 +39,7 @@ The following environment variables are required in order for the container to w
 
 - `CAM_IMAGE_URL1` : At least a single URL to an image file or image feed
 - `CAM_SEAFILE_URL` : The url of your seafile server in the form of `http(s)://your.seafile.server:port`
-- `CAM_SEAFILE_APITOKEN` : The access [`API token`](http://manual.seafile.com/develop/web_api.html#quick-start) for Seafile
+- `CAM_SEAFILE_APITOKEN` : The access [API token](http://manual.seafile.com/develop/web_api.html#quick-start) for Seafile
 - `CAM_SEAFILE_LIBRARY_ID` : The library ID of the Seafile library you would like to store the images on
 
 ## Optional Variables
@@ -38,7 +49,7 @@ In addition, the container supports the optional configurations:
 - `CAM_SEAFILE_DIRECTORY` : The directory in which to store resulting images
 - `CAM_SEAFILE_ENCRYPTION_KEY` : The Seafile encryption key to utilize for encrypted libraries
 - `CAM_ENCRYPT_TIMEOUT_MINS` : How often to renew the encryption authorization in Seafile (Default: 30)
-- `CAM_PHP_TIMEZONE` : The timezone to utilize for logging purposes. Utilizes [`PHP timezone formats`](http://php.net/manual/en/timezones.php).
+- `CAM_PHP_TIMEZONE` : The timezone to utilize for logging purposes. Utilizes [PHP timezone formats](http://php.net/manual/en/timezones.php).
 - `CAM_LOG_DEBUG` : Setting this to `true` will result in more verbose logging
 - `CAM_MAX_WIDTH` : The maximum width in pixels of the composited image (Default: 1280)
 - `CAM_OUTPUT_QUALITY` : The JPG compression quality of the composited image (Default: 80)
