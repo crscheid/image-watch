@@ -37,18 +37,16 @@ This container utilizes environment variables for configuration. The following s
 
 The following environment variables are required in order for the container to work properly:
 
+- `CAM_STORAGE_DIRECTORY` : The directory in which to store resulting images
+
 - `CAM_IMAGE_URL1` : At least a single URL to an image file or image feed
-- `CAM_SEAFILE_URL` : The url of your seafile server in the form of `http(s)://your.seafile.server:port`
-- `CAM_SEAFILE_APITOKEN` : The access [API token](http://manual.seafile.com/develop/web_api.html#quick-start) for Seafile
-- `CAM_SEAFILE_LIBRARY_ID` : The library ID of the Seafile library you would like to store the images on
 
 ## Optional Variables
 
 In addition, the container supports the optional configurations:
 
-- `CAM_SEAFILE_DIRECTORY` : The directory in which to store resulting images
-- `CAM_SEAFILE_ENCRYPTION_KEY` : The Seafile encryption key to utilize for encrypted libraries
-- `CAM_ENCRYPT_TIMEOUT_MINS` : How often to renew the encryption authorization in Seafile (Default: 30)
+### General Configuration
+
 - `CAM_PHP_TIMEZONE` : The timezone to utilize for logging purposes. Utilizes [PHP timezone formats](http://php.net/manual/en/timezones.php).
 - `CAM_LOG_DEBUG` : Setting this to `true` will result in more verbose logging
 - `CAM_MAX_WIDTH` : The maximum width in pixels of the composited image (Default: 1280)
@@ -56,6 +54,14 @@ In addition, the container supports the optional configurations:
 - `CAM_INTERVAL_TIME_SECS` : The interval of time in seconds between image creation (Default: 60)
 - `CAM_CLEAN_TIME_MINS` : The interval of time in minutes to regularly check for older images to be removed (Default: 60)
 - `CAM_RETENTION_TIME_HOURS` : The period in hours over which to retain images (Default: 24)
+
+### Seafile Configuration
+
+- `CAM_SEAFILE_URL` : The url of your seafile server in the form of `http(s)://your.seafile.server:port`
+- `CAM_SEAFILE_APITOKEN` : The access [API token](http://manual.seafile.com/develop/web_api.html#quick-start) for Seafile
+- `CAM_SEAFILE_LIBRARY_ID` : The library ID of the Seafile library you would like to store the images on
+- `CAM_SEAFILE_ENCRYPTION_KEY` : The Seafile encryption key to utilize for encrypted libraries
+- `CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS` : How often to renew the encryption authorization in Seafile (Default: 30)
 
 # Feedback / Contribution
 

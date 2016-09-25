@@ -5,7 +5,7 @@
  * VERSIONS:
  *
  *  1.0		- Initial prototype
- *
+ *  1.1		- Rewrite for environment variable handling and file system
  *
  */
 
@@ -21,21 +21,23 @@ use Seafile\Client\Resource\Library as Library;
 use Seafile\Client\Resource\File as File;
 use Seafile\Client\Resource\Directory as Directory;
 
-// Set up the timezone first
-$php_timezone = 'UTC';		// Override with CAM_PHP_TIMEZONE
+// Set up the global configuration variable
+$config =  array();
+
+// Set up the timezone and the logger
+$config['CAM_PHP_TIMEZONE'] = 'UTC';
 
 // Override configuration with env variables if they exit
 if (array_key_exists('CAM_PHP_TIMEZONE', $_ENV)) {
-	$php_timezone = $_ENV['CAM_PHP_TIMEZONE'];
+	$config['CAM_PHP_TIMEZONE'] = $_ENV['CAM_PHP_TIMEZONE'];
 }
 
 // Set up the timezone
-date_default_timezone_set($php_timezone);
+date_default_timezone_set($config['CAM_PHP_TIMEZONE']);
 
 // Create the logger 
 $logger = new Logger('image-watcher');
 $logger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
-
 //$log_filename = date("YmdHis") . ".log";
 //$logger->pushHandler(new StreamHandler(__DIR__ . '/' . $log_filename, Logger::DEBUG));
 
@@ -56,7 +58,7 @@ $output_quality = 80;	// Override with CAM_OUTPUT_QUALITY
 $interval_time_secs = 60;			// Override with CAM_INTERVAL_TIME_SECS
 $clean_up_interval_mins = 60;		// Override with CAM_CLEAN_TIME_MINS
 $retention_period_hours = 24;		// Override with CAM_RETENTION_TIME_HOURS
-$encryption_timeout_mins = 60;		// Override with CAM_ENCRYPT_TIMEOUT_MINS
+$encryption_timeout_mins = 60;		// Override with CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS
 
 $font_file = "/usr/share/fonts/truetype/droid/DroidSans-Bold.ttf";		// Use this when running on Debian
 //$font_file = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf";	// Use this when running on Ubuntu
@@ -113,10 +115,10 @@ if (array_key_exists('CAM_RETENTION_TIME_HOURS', $_ENV)) {
 	}
 }
 
-if (array_key_exists('CAM_ENCRYPT_TIMEOUT_MINS', $_ENV)) {
-	$encryption_timeout_mins = $_ENV['CAM_ENCRYPT_TIMEOUT_MINS'];
+if (array_key_exists('CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS', $_ENV)) {
+	$encryption_timeout_mins = $_ENV['CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS'];
 	if (!is_numeric($encryption_timeout_mins)) {
-		log_error("Cannot accept CAM_ENCRYPT_TIMEOUT_MINS of " . $encryption_timeout_mins);
+		log_error("Cannot accept CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS of " . $encryption_timeout_mins);
 		exit(1);
 	}
 }
@@ -152,8 +154,8 @@ else {
 	$seafile_encryption_key = null;
 }
 
-if (array_key_exists('CAM_SEAFILE_DIRECTORY', $_ENV)) {
-	$seafile_directory = $_ENV['CAM_SEAFILE_DIRECTORY'];
+if (array_key_exists('CAM_STORAGE_DIRECTORY', $_ENV)) {
+	$seafile_directory = $_ENV['CAM_STORAGE_DIRECTORY'];
 }
 else {
 	$seafile_directory = "/";
