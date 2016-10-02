@@ -576,7 +576,7 @@ function getCameraUrls() {
  */
 function initializeSeafile() {
 
-	global $seafile_client, $seafile_library, $seafile_library_resource;
+	global $config, $seafile_client, $seafile_library, $seafile_library_resource;
 
 	if ($config['CAM_STORAGE_METHOD'] == "seafile") {
 
