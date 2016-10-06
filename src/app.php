@@ -446,7 +446,27 @@ function readConfiguration() {
 
 	global $config;
 
-	// Set the defaults
+	// Enumerate the potential variables to look for	
+	$potential_env_vars = [
+		'CAM_LOG_DEBUG',
+		'CAM_STORAGE_METHOD',
+		'CAM_STORAGE_DIRECTORY',
+		'CAM_MAX_WIDTH',
+		'CAM_OUTPUT_QUALITY',
+		'CAM_INTERVAL_TIME_SECS',
+		'CAM_CLEAN_TIME_MINS',
+		'CAM_RETENTION_TIME_HOURS',
+		'CAM_SEAFILE_ENCRYPT_TIMEOUT_MINS',
+		'CAM_FONT',
+		'CAM_FONT_COLOR',
+		'CAM_FONT_SIZE',
+		'CAM_SEAFILE_URL',
+		'CAM_SEAFILE_APITOKEN',
+		'CAM_SEAFILE_LIBRARY_ID',
+		'CAM_SEAFILE_ENCRYPTION_KEY'
+		];
+
+	// Set the defaults into the config array
 	log_info("Setting default configuration");
 	$config['CAM_LOG_DEBUG'] = false;
 	$config['CAM_STORAGE_METHOD'] = "local";
@@ -463,12 +483,14 @@ function readConfiguration() {
 
 	// Look through each of the environment variables that are prefaced by "CAM_" and place them in the the config array	
 	log_info("Reading environment variables");
-	foreach($_ENV as $env_var_key=>$env_var_value) {
-		if (substr($env_var_key,0,4) == 'CAM_') {
-			$config[$env_var_key] = $env_var_value;
+	
+	foreach($potential_env_vars as $env_var) {	
+		if (array_key_exists($env_var, $_ENV)) {
+			log_debug($env_var . ": " . $_ENV[$env_var]);
+			$config[$env_var] = $_ENV[$env_var];
 		}
 	}
-
+	
 	// Get the camera URLs from environment varaibles
 	log_info("Processing image url configuration");
 	$config['CAM_URLS'] = getCameraUrls();
