@@ -621,13 +621,21 @@ function decryptSeafileLibrary() {
 	// If we have an encryption key, the try to decrypt the resource
 	if ($config['CAM_SEAFILE_ENCRYPTION_KEY'] != null) {
 		log_info("Decrypting library resource: " . $config['CAM_SEAFILE_LIBRARY_ID']);
-		$success = $seafile_library_resource->decrypt($config['CAM_SEAFILE_LIBRARY_ID'], ['query' => ['password' => $config['CAM_SEAFILE_ENCRYPTION_KEY']]]);
-		if ($success) {
-			log_info("Successfully decryped library resource: " . $config['CAM_SEAFILE_LIBRARY_ID']);
+		
+		try {
+			$success = $seafile_library_resource->decrypt($config['CAM_SEAFILE_LIBRARY_ID'], ['query' => ['password' => $config['CAM_SEAFILE_ENCRYPTION_KEY']]]);
+
+			if ($success) {
+				log_info("Successfully decryped library resource: " . $config['CAM_SEAFILE_LIBRARY_ID']);
+			}
+			else {
+				log_error("Was not able to decrypt library resource: " . $config['CAM_SEAFILE_LIBRARY_ID']);
+				exit(1);
+			}
+			
 		}
-		else {
-			log_error("Was not able to decrypt library resource: " . $config['CAM_SEAFILE_LIBRARY_ID']);
-			exit(1);
+		catch (Exception $e) {
+			log_error("Error communicating with Seafile. Error message received: " . $e->getMessage());
 		}
 	}
 }
