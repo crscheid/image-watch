@@ -2,10 +2,6 @@
 
 /* IMAGE-WATCHER
  *
- * VERSIONS:
- *
- *  1.0		- Initial prototype
- *  1.1		- Rewrite method for environment variable handling and local file system support
  *
  */
 
@@ -275,8 +271,6 @@ function saveImage($image) {
 		sendFileToSeafile($filename);
 		log_debug("Removing local copy of " . $filename);
 		unlink($filename);
-
-		log_info("Saved " . $filename . " to seafile");
 	}
 }
 
@@ -297,7 +291,8 @@ function sendFileToSeafile($filepath) {
 	try {
 		$response = $fileResource->upload($seafile_library, $filepath, $config['CAM_STORAGE_DIRECTORY']);
 		$uploadedFileId = json_decode((string)$response->getBody());
-		log_debug("Uploaded file " . $filepath);
+		log_info("Saved " . $filepath . " to seafile");
+
 	}
 	catch (Exception $e) {
 		log_error("Exception found in trying to upload file to seafile. Try checking your configuration. This may occur if you are utilizing an encrypted library without an specified encryption key via CAM_SEAFILE_ENCRYPTION_KEY. Error message: " . $e->getMessage());
