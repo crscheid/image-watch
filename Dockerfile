@@ -7,6 +7,7 @@
 # Please see the sample.env contained within this repository for information on the 
 # necessary environment configuration required to run this software
 #
+#
 
 FROM php:7-cli
 
