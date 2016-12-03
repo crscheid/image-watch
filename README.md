@@ -3,7 +3,7 @@
 
 # What is image-watcher?
 
-The image-watcher is a simple docker container that will monitor and aggregate multiple image URLs into a security camera console like image grid. It will then distribute this image according to user preferences either via writing to local disk or by sending to [Seafile](http://www.seafile.com/). It currently supports up to 9 images.
+The image-watcher is a really simple docker container that will monitor and aggregate multiple image URLs into a security camera console like image grid. It will then distribute this image according to user preferences either via writing to local disk or by sending to [Seafile](http://www.seafile.com/). It currently supports up to 9 images.
 
 
 # How to use this image
